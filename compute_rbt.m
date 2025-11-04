@@ -1,0 +1,25 @@
+%Computes the rigid body transformation that maps a set
+%of points in the box-frame to their corresponding
+%world-frame coordinates
+
+%INPUTS:
+%x: the x position of the centroid of the box
+%y: the y position of the centroid of the box
+%theta: the orientation of the box
+%Plist_box: a 2 x n matrix of points in the box frame
+
+%OUTPUTS:
+%Plist_world: a 2 x n matrix of points describing
+%the world-frame coordinates of the points in Plist_box
+
+function Plist_world = compute_rbt(x,y,theta,Plist_box)
+    
+    Plist_world = zeros(2,n);
+    
+    %Counterclockwise rotation matrix
+    T = [cos(theta), -sin(theta); sin(theta), cos(theta)];
+    for i = 1:length(Plist_box(:,1))
+
+        Plist_world(:,i) = T * Plist_box(:,i) + [x, y];
+    end
+end

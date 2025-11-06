@@ -18,8 +18,8 @@ function Plist_world = compute_rbt(x,y,theta,Plist_box)
     
     %Counterclockwise rotation matrix
     T = [cos(theta), -sin(theta); sin(theta), cos(theta)];
-    for i = 1:length(Plist_box(:,1))
+    for i = 1:size(Plist_box, 2)
 
-        Plist_world(:,i) = T * Plist_box(:,i) + [x, y];
+        Plist_world(:,i) = T * Plist_box(:,i) + [x; y];
     end
 end

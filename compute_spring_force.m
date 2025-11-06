@@ -16,5 +16,5 @@ function F = compute_spring_force(k,l0,PA,PB)
     e_s = (PA - PB)/l;
     
     %Force exerted by spring at point B
-    F = -k * (l - l0) * e_s;
+    F = -k * (l - l0) .* e_s;
 end

@@ -33,5 +33,5 @@ function dVdt = box_rate_func(t,V,box_params)
     
     [d2xdt2, d2ydt2, d2theta2dt2] = compute_accel(x,y,theta,box_params);
 
-    dVdt = [dxdt; dydt; dthetadt, d2xdt2; d2ydt2; d2theta2dt2];
+    dVdt = [dxdt; dydt; dthetadt; d2xdt2; d2ydt2; d2theta2dt2];
 end

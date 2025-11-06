@@ -14,7 +14,7 @@
 
 function Plist_world = compute_rbt(x,y,theta,Plist_box)
     
-    Plist_world = zeros(2,n);
+    Plist_world = zeros(size(Plist_box));
     
     %Counterclockwise rotation matrix
     T = [cos(theta), -sin(theta); sin(theta), cos(theta)];

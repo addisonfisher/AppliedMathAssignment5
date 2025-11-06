@@ -1,4 +1,6 @@
-function [t_list, v_list] = simulate_box(box_params)
+function [t_list, v_list] = simulate_box()
+
+    box_params = create_params();
 
     my_rate_func = @(t_in,V_in) box_rate_func(t_in,V_in,box_params);
 
@@ -13,7 +15,7 @@ function [t_list, v_list] = simulate_box(box_params)
     V0 = [x0;y0;theta0;vx0;vy0;vtheta0];
     
     % Time span for the simulation (e.g., 0 to 20 seconds)
-    tspan = 0:0.1:3;
+    tspan = 0:0.1:1;
 
     %run the integration
     [t_list,v_list] = ode45(my_rate_func,tspan,V0);

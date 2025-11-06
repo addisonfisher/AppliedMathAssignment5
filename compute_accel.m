@@ -23,5 +23,47 @@
 %atheta: angular acceleration of the box
 function [ax,ay,atheta] = compute_accel(x,y,theta,box_params)
     
-    (1/box_params.I) * sum()
+    m = box_params.m;
+    I = box_params.I;
+    g = box_params.g;
+    k_list = box_params.k_list;
+    l0_list = box_params.l0_list;
+    P_world_list = box_params.P_world;
+    P_box_list = box_params.P_box;
+
+    num_springs = length(k_list);
+
+    F_net = [0; -m * g];
+    tau_net = 0;
+
+    %computing rigid body tranformation
+    P_box_world = compute_rbt(x, y, theta, P_box_list);
+
+    %iterate through each spring
+    for i=1:num_springs
+
+        k = k_list(i);
+        l0 = l0_list(i);
+
+        %get positions of spring
+        PA = P_world_list(:, i);
+        PB = P_box_world(:, i);
+
+        %compute force from springs
+        F_i = compute_spring_force(k, l0, PA, PB);
+
+        %add to net force and torque
+        F_net = F_net + F_i;
+        r_i = PB - [x; y];
+
+        tau_i = r_i(1) * F_i(2) - r_i(2) * F_i(1);
+        tau_net = tau_net + tau_i;
+
+    end
+    %calc acceleration
+    ax = F_net(1) / m;
+    ay = F_net(2) / m;
+
+    atheta = tau_net / I;
+
 end

@@ -1,5 +1,6 @@
 function trampoline()
-    % Example parameters 
+
+    % System parameters 
     LW = 10; LH = 1; LG = 3;
     m = 1; Ic = (1/12)*(LH^2 + LW^2);
     g = 1;
@@ -33,29 +34,39 @@ function trampoline()
     box_params.P_box = P_box;
     box_params.boundary_pts = boundary_pts;
     
+    %Finding equilibrium
     f_no_t = @(V) box_rate_func(0, V, box_params);
     
     % Initial guess 
     Vguess = [0; -3; 0; 0; 0; 0];   
 
-    % Solve f(V) = 0
     [Veq, fval, exitflag, output] = fsolve(f_no_t, Vguess);
     
     disp("Equilibrium state found:");
     disp(Veq);
     
-    disp("f(Veq) = ");
+    disp("f(Veq) (close to 0?)= ");
     disp(f_no_t(Veq));
 
+    %Jacobina
+    A = approximate_jacobian(f_no_t, Veq);
+
+    %MOdal Analysis
+    my_rate_func = @(t,V) box_rate_func(t,V,box_params);
+
+    modal_analysis(Veq, A, my_rate_func);
+
+
     % initial condition
-    x0 = 0; y0 = 0; theta0 = 0.05;    
+    x0 = Veq(1); y0 = Veq(2); theta0 = Veq(3) + 0.05;    
+    
     vx0 = 0; vy0 = 0; vtheta0 = 0;
+
     V0 = [x0; y0; theta0; vx0; vy0; vtheta0];
     
     t0 = 0; tf = 12; dt = 0.02;
     tspan = t0:dt:tf;
     
-    my_rate_func = @(t,V) box_rate_func(t,V,box_params);
     
     [tlist, Vlist] = ode45(my_rate_func, tspan, V0);
 

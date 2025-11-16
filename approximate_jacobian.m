@@ -3,6 +3,7 @@
 %INPUTS:
 %fun: the mathetmatical function we want to differentiate
 %x: the input value of fun that we want to compute the derivative at
+
 %OUTPUTS:
 %J: approximation of Jacobian of fun at x
 

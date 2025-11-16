@@ -41,7 +41,6 @@ function animate_simulation(tlist, Vlist, box_params)
 
         title(sprintf('t = %.2f s', tlist(k)));
         drawnow;
-        % optional pause to make realtime-ish
         pause(0.001);
     end
 end

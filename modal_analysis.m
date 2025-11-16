@@ -41,9 +41,7 @@ function modal_analysis(Veq, A, my_rate_func)
         ylabel('X(t)');
         xlabel('Time (s)');
         legend('Nonlinear','Linear','Modal');
-        hold off;
 
-        figure();
         plot(tlist_nonlinear, Vlist_nonlinear(2,:), 'b');
         hold on;
         plot(tlist_lin, Vlist_lin(2,:), 'r--');
@@ -51,11 +49,8 @@ function modal_analysis(Veq, A, my_rate_func)
         ylabel('Y(t)');
         xlabel('Time (s)');
         legend('Nonlinear','Linear','Modal');
-        hold off;
         
-        figure();
         plot(tlist_nonlinear, Vlist_nonlinear(3,:), 'b');
-        hold on;
         plot(tlist_lin, Vlist_lin(3,:), 'r--');
         plot(tlist_nonlinear, theta_modal, 'k:');
 

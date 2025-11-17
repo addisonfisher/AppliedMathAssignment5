@@ -64,7 +64,7 @@ function trampoline()
 
     V0 = [x0; y0; theta0; vx0; vy0; vtheta0];
     
-    t0 = 0; tf = 12; dt = 0.02;
+    t0 = 0; tf = 12; dt = 0.01;
     tspan = t0:dt:tf;
     
     

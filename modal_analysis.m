@@ -3,7 +3,7 @@ function modal_analysis(Veq, A, my_rate_func)
     Q = -A(4:6, 1:3);
     
     [V, D] = eig(Q);
-    eigenvalues = diag(D);
+    eigenvalues = diag(D)
     omega_n_values = sqrt(abs(eigenvalues));
     U = V;
     for i = 1:3
@@ -28,37 +28,32 @@ function modal_analysis(Veq, A, my_rate_func)
         tlist_lin = tlist_lin';
         Vlist_lin = Vlist_lin';
     
-        x_modal = Veq(1)+epsilon*U_mode(1)*cos(omega_n*tlist_nonlinear);
-        y_modal = Veq(2)+epsilon*U_mode(2)*cos(omega_n*tlist_nonlinear);
-        theta_modal = Veq(3)+epsilon*U_mode(3)*cos(omega_n*tlist_nonlinear);
+        x_modal = epsilon*U_mode(1)*cos(omega_n*tlist_nonlinear);
+        y_modal = epsilon*U_mode(2)*cos(omega_n*tlist_nonlinear);
+        theta_modal = epsilon*U_mode(3)*cos(omega_n*tlist_nonlinear);
 
         figure();
-        
-
-        plot(tlist_nonlinear, x_modal, 'k:');
+        sgtitle(['Modal Analysis: Mode ', num2str(i), ' (\omega_n = ', num2str(omega_n), ' rad/s)']);
+        subplot(3, 1, 1);
         hold on;
-        plot(tlist_nonlinear, y_modal, 'k:');    
-        plot(tlist_nonlinear, theta_modal, 'k:');
+        plot(tlist_nonlinear, Vlist_nonlinear(1,:) - Veq(1), 'r-');
+        plot(tlist_nonlinear, x_modal, 'k--');
+        ylabel('\Delta x');
+        legend('Nonlinear Sim', 'Modal Prediction');
 
-        ylabel('Distance');
-        xlabel('Time (s)');
-        legend('X','Y','\theta');
-        title('Modal Analysis')
-
-        figure()
-        plot(tlist_nonlinear, Vlist_nonlinear(1,:));
+        subplot(3, 1, 2);
         hold on;
-        plot(tlist_lin, Vlist_lin(1,:));
-        plot(tlist_nonlinear, Vlist_nonlinear(2,:));
-        plot(tlist_lin, Vlist_lin(2,:));
-        plot(tlist_nonlinear, Vlist_nonlinear(3,:));
-        plot(tlist_lin, Vlist_lin(3,:));
-        title('Linear vs Nonlinear Approximation')
-        ylabel('Distance from Equilibrium');
-        xlabel('Time (s)');
-        legend('nonlinX', 'linX', 'nonlinY', 'linY', 'nonlin\theta', 'lin\theta');
+        plot(tlist_nonlinear, Vlist_nonlinear(2,:) - Veq(2), 'r-');
+        plot(tlist_nonlinear, y_modal, 'k--');
+        ylabel('\Delta y');
 
-        hold off;
+        subplot(3, 1, 3);
+        hold on;
+        plot(tlist_nonlinear, Vlist_nonlinear(3,:) - Veq(3), 'r-');
+        plot(tlist_nonlinear, theta_modal, 'k--');
+        ylabel('\Delta \theta');
+        xlabel('Time (s)');
+
     end
 
 end
